@@ -87,7 +87,7 @@ sub login {
         my $ans = <STDIN>;
         chomp $ans;
         $ans ||= 'Y';
-        if( $ans =~ /y/ ) {
+        if( $ans =~ /y/i ) {
             print "User: ";
             my $user = <STDIN>;
             chomp $user;
