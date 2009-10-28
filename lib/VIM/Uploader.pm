@@ -100,6 +100,7 @@ sub login {
             close FH;
 
             print "Created.\n";
+            $config = $self->read_config();
         }
     }
 
