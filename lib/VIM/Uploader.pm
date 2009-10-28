@@ -69,7 +69,7 @@ sub read_config {
     open FH , "<" , $path;
     my $line = <FH>;
     chomp $line;
-    my ($user,$pass) = split /:/,<FH>;
+    my ($user,$pass) = split /:/,$line;
     close FH;
 
     return {
