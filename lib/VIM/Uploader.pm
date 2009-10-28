@@ -67,6 +67,8 @@ sub read_config {
     return unless -e $path;
 
     open FH , "<" , $path;
+    my $line = <FH>;
+    chomp $line;
     my ($user,$pass) = split /:/,<FH>;
     close FH;
 
