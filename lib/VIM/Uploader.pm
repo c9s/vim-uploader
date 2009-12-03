@@ -151,7 +151,7 @@ sub upload {
     $self->mech->get( 'http://www.vim.org/scripts/script.php?script_id=' . $script_id );
 
     my $html = $self->mech->content;
-    return $html =~ /$args{version_comment}/s;
+    return index($html, $args{version_comment});
 }
 
 =head1 AUTHOR
