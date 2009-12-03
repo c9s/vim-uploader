@@ -8,9 +8,13 @@ use strict;
 
 VIM::Uploader - upload your vim script to vim.org
 
+=head1 VERSION
+
+0.03
+
 =cut
 
-our $VERSION = 2009.33719 ;
+our $VERSION = '0.03';
 
 =head1 SYNOPSIS
 
