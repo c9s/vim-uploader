@@ -121,6 +121,56 @@ sub login {
 }
 
 
+
+=head2 upload_new
+
+script_name
+
+script_file 
+
+script_type : 'color scheme' , 'ftplugin' , 'game' , 'indent' , 'syntax' , 'utility' , 'patch'
+
+vim_version:  5.7 , 6.0 , 7.0 , 7.2
+
+script_version: 
+
+summary
+
+description
+
+install_details
+
+=cut
+
+sub upload_new {
+    my $self = shift;
+    my %args = @_;
+    my $new_script_url = 'http://www.vim.org/scripts/add_script.php';
+
+    $args{ACTION} = 'UPLOAD_NEW';
+    $args{MAX_FILE_SIZE} = '10485760';
+
+    my @undefs;
+    my @fields = qw(script_name script_file script_type vim_version script_version summary description install_details);
+    for( @fields ){
+        push @undefs, $_ unless $args{$_};
+    }
+    die "Field " . join(',',@undefs) . " is undefined." if @undefs;
+
+    $self->mech->get( $new_script_url );
+    $self->mech->form_name('script');
+
+    for ( @fields ) {
+        $self->mech->field( $_ => $args{$_} );
+    }
+
+    $self->mech->click_button( value => 'upload' );
+    die "ERROR" if $self->mech->content =~ /Vim Online Error/;
+    print "DONE\n";
+}
+
+
+
 sub upload {
     my $self = shift;
     my %args = @_;
