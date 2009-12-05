@@ -10,11 +10,11 @@ VIM::Uploader - upload your vim script to vim.org
 
 =head1 VERSION
 
-0.03
+0.04
 
 =cut
 
-our $VERSION = '0.03';
+our $VERSION = '0.04';
 
 =head1 SYNOPSIS
 
@@ -31,6 +31,7 @@ or
         pass => 'xxx',
     );
 
+    $uploader->upload_new( ... );
 
     my $ok = $uploader->upload( 
         script_id => 1234,
@@ -122,13 +123,13 @@ sub login {
 
 
 
-=head2 upload_new
+=head2 upload_new( %args )
 
 script_name
 
 script_file 
 
-script_type : 'color scheme' , 'ftplugin' , 'game' , 'indent' , 'syntax' , 'utility' , 'patch'
+script_type: 'color scheme' , 'ftplugin' , 'game' , 'indent' , 'syntax' , 'utility' , 'patch'
 
 vim_version:  5.7 , 6.0 , 7.0 , 7.2
 
