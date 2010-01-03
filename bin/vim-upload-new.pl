@@ -1,3 +1,4 @@
+#!/usr/bin/env perl
 use VIM::Uploader;
 use File::Temp 'tempfile';
 my ($fh, $filename) = tempfile();

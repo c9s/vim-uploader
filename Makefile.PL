@@ -10,7 +10,7 @@ WriteMakefile(
     ($ExtUtils::MakeMaker::VERSION >= 6.3002
       ? ('LICENSE'=> 'MIT')
       : ()),
-    PL_FILES            => {},
+    EXE_FILES            => [ 'bin/vim-upload-new.pl' ],
     PREREQ_PM => {
         'Test::More' => 0,
         'File::Spec' => 0,
