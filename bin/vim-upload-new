@@ -1,17 +1,21 @@
 #!/usr/bin/env perl
 # vim:fdm=marker:fdl=0:
+use warnings;
+use strict;
 use VIM::Uploader;
 #use File::Temp 'tempfile';
-use Cwd;
-my $dist = shift;
-$dist = abs_path( $dist );
+use Cwd qw(abs_path);
 
-#my ($fh, $filename) = tempfile();
 my $pwd = qx(pwd);
 my $basename = qx(basename $pwd);
+chomp($basename,$pwd);
 my $upload_template = "$basename.upload";
 
 if( ! -e $upload_template ) {
+    my $dist = shift @ARGV || '';
+    $dist = abs_path( $dist );
+
+    print "Going to upload $dist file.";
 # {{{
     open FH, ">" , $upload_template;
     print FH <<END;
@@ -40,6 +44,8 @@ vim_version:
     7.0
     7.2
 
+script_id:
+
 script_version: 
 
     0.1
@@ -56,13 +62,15 @@ install_details:
 
     [install details]
 
+version_note:
+
 END
     close FH;
-    system( qq(vim $filename) );
+    system( qq(vim $upload_template) );
 # }}}
 }
 
-open FH , "<" , $filename;
+open FH , "<" , $upload_template;
 local $/;
 my $content = <FH>;
 close FH;
@@ -105,5 +113,18 @@ $parts{ script_name } =~ s{\s}{-}g;
 
 my $uploader = VIM::Uploader->new();
 $uploader->login();
-$uploader->upload_new( %parts );
+if( $parts{script_id} ) {
+    $uploader->upload( 
+        script_id => $parts{script_id},
+        script_file => $parts{script_file},
+        vim_version => $parts{vim_version},   # valid values:  7.0 , 6.0 , 5.7
+        script_version => $parts{script_version},  # your vim script version
+        version_comment => 
+            $parts{'version_note_'.$parts{script_version}} 
+                || $parts{version_note}
+    );
+}
+else{
+    $uploader->upload_new( %parts );
+}
 print "Done";
