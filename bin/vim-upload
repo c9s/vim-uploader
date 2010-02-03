@@ -12,7 +12,13 @@ chomp($basename,$pwd);
 my $upload_template = "$basename.upload";
 
 if( ! -e $upload_template ) {
-    my $dist = shift @ARGV || '';
+    my $dist = shift @ARGV;
+    unless( $dist ) {
+        print "Usage:\n";
+        print "   vim-upload path/to/your_script_dist_file\n";
+        exit;
+    }
+
     $dist = abs_path( $dist );
 
     print "Going to upload $dist file.";
