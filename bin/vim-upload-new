@@ -1,30 +1,48 @@
 #!/usr/bin/env perl
+# vim:fdm=marker:fdl=0:
 use VIM::Uploader;
-use File::Temp 'tempfile';
-my ($fh, $filename) = tempfile();
+#use File::Temp 'tempfile';
+use Cwd;
+my $dist = shift;
+$dist = abs_path( $dist );
 
-open FH, ">" , $filename;
+#my ($fh, $filename) = tempfile();
+my $pwd = qx(pwd);
+my $basename = qx(basename $pwd);
+my $upload_template = "$basename.upload";
 
-print FH <<END;
+if( ! -e $upload_template ) {
+# {{{
+    open FH, ">" , $upload_template;
+    print FH <<END;
 script_name:
 
     [script name]
 
 script_file:
 
-    [filepath]
+    $dist
 
 script_type:
 
-    ['color scheme' , 'ftplugin' , 'game' , 'indent' , 'syntax' , 'utility' , 'patch']
+    color scheme
+    ftplugin
+    game
+    indent
+    syntax
+    utility
+    patch
 
 vim_version:
 
-    [5.7 , 6.0 , 7.0 , 7.2]
+    5.7
+    6.0
+    7.0
+    7.2
 
 script_version: 
 
-    [version]
+    0.1
 
 summary:
 
@@ -37,18 +55,17 @@ description:
 install_details:
 
     [install details]
-END
-close FH;
 
-system( qq(vim $filename) );
+END
+    close FH;
+    system( qq(vim $filename) );
+# }}}
+}
 
 open FH , "<" , $filename;
 local $/;
 my $content = <FH>;
 close FH;
-
-# print $content;
-
 
 # parse content
 my @lines = split /\n/,$content;
