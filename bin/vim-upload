@@ -125,10 +125,7 @@ my $uploader = VIM::Uploader->new();
 $uploader->login();
 if( $parts{script_id} ) {
     $uploader->upload( 
-        script_id => $parts{script_id},
-        script_file => $parts{script_file},
-        vim_version => $parts{vim_version},   # valid values:  7.0 , 6.0 , 5.7
-        script_version => $parts{script_version},  # your vim script version
+        %parts,
         version_comment => 
             $parts{'version_note_'.$parts{script_version}} 
                 || $parts{version_note}
