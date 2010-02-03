@@ -21,6 +21,10 @@ if( ! -e $upload_template ) {
 
     $dist = abs_path( $dist );
 
+    if( ! -e $dist ) {
+        die "$dist doesnot exist.";
+    }
+
     print "Going to upload $dist file.";
 # {{{
     open FH, ">" , $upload_template;
